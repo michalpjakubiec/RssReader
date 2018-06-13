@@ -1,0 +1,33 @@
+﻿@model IEnumerable<AspNetZaj.Models.RssItem>
+@{
+    ViewBag.Title = "Columns";
+}
+
+<h2>Columns</h2>
+
+<div id="rss-list">
+    @foreach (var row in Split(Model.ToList(), 2))
+    {
+        <div class="row row-eq-height">
+            @foreach (var item in row)
+            {
+                <div class="col-xs-12 col-md-6">
+                    <h4><a href="@item.Url">@item.Title <span> - @item.PubDate</span></a></h4>
+                    @*<p class="category">@item.Category</p>*@
+                    <p calss="description">@Html.Raw(item.Description)</p>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@functions
+{
+    IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> list, int size)
+    {
+        for (var i = 0; i < (float)list.Count() / size; i++)
+        {
+            yield return list.Skip(i * size).Take(size);
+        }
+    }
+}

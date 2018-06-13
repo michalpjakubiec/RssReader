@@ -1,0 +1,13 @@
+﻿#rss-list {
+}
+
+
+    #rss-list h4 span {
+        color: gray;
+        font-size:12px;
+    }
+
+    #rss-list td {
+        vertical-align:top;
+        padding-right:10px;
+    }

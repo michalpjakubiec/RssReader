@@ -1,0 +1,107 @@
+﻿@model IEnumerable<AspNetZaj.Models.RssItem>
+@{
+    ViewBag.Title = "Columns";
+}
+
+<h2>Columns</h2>
+
+<div id="rss-list">
+    @foreach (var row in Split(Model.ToList(), 2))
+    {
+        <div class="row row-eq-height">
+            @foreach (var item in row)
+            {
+                <div class="col-xs-12 col-md-6">
+                    <h4><a href="@item.Url">@item.Title <span> - @item.PubDate</span></a></h4>
+                    @*<p class="category">@item.Category</p>*@
+                    <p calss="description">@Html.Raw(item.Description)</p>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@functions
+{
+    IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> list, int size)
+    {
+        for (var i = 0; i < (float)list.Count() / size; i++)
+        {
+            yield return list.Skip(i * size).Take(size);
+        }
+    }
+}
+
+PageSize = @ViewBag.PageSize<br />
+Page = @ViewBag.Page
+
+<div align="center">
+    <ul class="pagination">
+        @if (ViewBag.Page == 1)
+        {
+            <li class="page-item disabled">
+                <a class="page-link">&laquo;</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { Page = "1" })">&laquo;</a>
+            </li>
+        }
+
+        @if (ViewBag.Page == 1)
+        {
+            <li class="page-item disabled">
+                <a class="page-link">&lsaquo;</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { Page = "1" })">&lsaquo;</a>
+            </li>
+        }
+
+        @for (int i = 1; i <= (int)ViewBag.PageSize; i++)
+        {
+            if (ViewBag.Page == i)
+            {
+
+                <li class="active"><a href="#">@i</a></li>
+            }
+            else
+            {
+                <li class="page-item"><a href="@Url.Action("Index", new { Page = i })">@i</a></li>
+            }
+        }
+
+        @if (ViewBag.Page == (int)ViewBag.PageSize)
+        {
+            <li class="page-item disabled">
+                <a href="#">&rsaquo;</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { Page = ViewBag.PageSize })">&rsaquo;</a>
+            </li>
+        }
+
+        @if (ViewBag.Page == (int)ViewBag.PageSize)
+        {
+            <li class="page-item disabled">
+                <a href="#">&raquo;</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link" href="@Url.Action("Index", new { Page = ViewBag.PageSize })">&raquo;</a>
+            </li>
+        }
+
+    </ul>
+</div>
+
